@@ -15,7 +15,10 @@
         "panel"
     ],
     "dependencies": {
+        "@spectrum-web-components/accordion": "^0.41.1",
         "@spectrum-web-components/button": "0.39.4",
+        "@spectrum-web-components/field-label": "^0.41.1",
+        "@spectrum-web-components/textfield": "^0.41.1",
         "@spectrum-web-components/theme": "0.39.4",
         "lit": "2.8.0"
     },

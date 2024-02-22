@@ -12,32 +12,57 @@ import "@spectrum-web-components/theme/sp-theme.js";
 
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { style } from "./App.css";
+import { css } from "lit";
+
 
 import { AddOnSDKAPI } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
+
+import "./partials/settings-accordion";
+import "./partials/prompt-input";
+import "./partials/invoke-button";
+
+const style = css`
+    .app {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+    }
+
+    .container {
+        margin: 24px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+
+    .mb-2 {
+        margin-bottom: 2rem;
+    }
+`;
 
 @customElement("add-on-app")
 export class App extends LitElement {
     @property({ type: Object })
     addOnUISdk!: AddOnSDKAPI;
 
-    @state()
-    private _buttonLabel = "Click me";
-
     static get styles() {
         return style;
-    }
-
-    private _handleClick() {
-        this._buttonLabel = "Clicked";
     }
 
     render() {
         // Please note that the below "<sp-theme>" component does not react to theme changes in Express.
         // You may use "this.addOnUISdk.app.ui.theme" to get the current theme and react accordingly.
-        return html` <sp-theme theme="express" color="light" scale="medium">
+        console.log(this)
+        return html` <sp-theme theme="express" color="light" scale="medium" class="app">
             <div class="container">
-                <sp-button size="m" @click=${this._handleClick}>${this._buttonLabel}</sp-button>
+                <prompt-input class="mb-2 w-full"></prompt-input>
+                <invoke-button class="w-full"></invoke-button>
+            </div>
+            <div class="container bottom-0 absolute">
+                <settings-accordion></settings-accordion>
             </div>
         </sp-theme>`;
     }
