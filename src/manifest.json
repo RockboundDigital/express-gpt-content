@@ -1,0 +1,21 @@
+{
+    "testId": "faf6df71-656d-40fd-901e-b17b0706d6b5",
+    "name": "Express Gpt Content",
+    "version": "1.0.0",
+    "manifestVersion": 2,
+    "requirements": {
+        "apps": [
+            {
+                "name": "Express",
+                "apiVersion": 1
+            }
+        ]
+    },
+    "entryPoints": [
+        {
+            "type": "panel",
+            "id": "panel1",
+            "main": "index.html"
+        }
+    ]
+}
