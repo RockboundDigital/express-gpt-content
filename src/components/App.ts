@@ -20,6 +20,7 @@ import { AddOnSDKAPI } from "https://new.express.adobe.com/static/add-on-sdk/sdk
 import "./partials/settings-accordion";
 import "./partials/prompt-input";
 import "./partials/invoke-button";
+import "./partials/main-modal";
 
 const style = css`
     .app {
@@ -57,6 +58,7 @@ export class App extends LitElement {
         // You may use "this.addOnUISdk.app.ui.theme" to get the current theme and react accordingly.
         console.log(this)
         return html` <sp-theme theme="express" color="light" scale="medium" class="app">
+            <main-modal></main-modal>
             <div class="container">
                 <prompt-input class="mb-2 w-full"></prompt-input>
                 <invoke-button class="w-full"></invoke-button>
