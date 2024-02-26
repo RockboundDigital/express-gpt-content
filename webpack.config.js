@@ -23,8 +23,16 @@ module.exports = {
             template: "src/index.html",
             scriptLoading: "module"
         }),
+        new HtmlWebpackPlugin({
+            template: "src/components/partials/modal.html",
+            filename: "modal.html",
+            scriptLoading: "module"
+        }),
         new CopyWebpackPlugin({
-            patterns: [{ from: "src/*.json", to: "[name][ext]" }]
+            patterns: [
+                { from: "src/*.json", to: "[name][ext]" },
+                // { from: "src/components/partials/*.html", to: "[name][ext]" },
+            ]
         })
     ],
     module: {
@@ -33,7 +41,8 @@ module.exports = {
                 test: /\.ts$/,
                 use: "ts-loader",
                 exclude: /node_modules/
-            }
+            },
+            { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ }
         ]
     },
     resolve: {

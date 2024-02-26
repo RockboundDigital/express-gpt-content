@@ -4,9 +4,10 @@ import { customElement, property, state } from "lit/decorators.js";
 import { css } from "lit";
 import { until } from "lit/directives/until.js";
 
+import addOnUISdk, { CustomDialogOptions, Variant } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
 
-import addOnUISdk from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
-import { InputDialogOptions } from "@adobe/ccweb-add-on-sdk-types/iframe-ui";
+import '@spectrum-web-components/textfield/sp-textfield.js';
+import '@spectrum-web-components/field-label/sp-field-label.js';
 
   
   @customElement("main-modal")
@@ -14,25 +15,35 @@ import { InputDialogOptions } from "@adobe/ccweb-add-on-sdk-types/iframe-ui";
 
     @state()
     private _isAddOnUISdkReady = addOnUISdk.ready;
+    
 
     render() {
       return html`
           ${until(
               this._isAddOnUISdkReady.then(() => {
                 console.log("ready");
-                (async function showConfirmDialog() {
+                (async function showCustomDialog() {
                   try {
-                      // Confirmation Dialog Example
-                      let dialogOptions = {
-                          variant: "confirmation",
-                          title: "Enable smart Filters",
-                          description: "Smart filters are nondestructive and will preserve your original images.",
-                          buttonLabels: { primary: "Enable", cancel: "Cancel" },
-                      };    
-                      const result = await addOnUISdk.app.showModalDialog(dialogOptions as InputDialogOptions);
-                      console.log("Button type clicked " + result.buttonType); 
+                    debugger;
+                    const dialogResult = await addOnUISdk.app.showModalDialog({
+                        variant: Variant.custom,
+                        title: "Content Generation",
+                        src: "modal.html",
+                        size: { 
+                          //TODO CORS issues accessing parent
+                          // width: window.parent.innerWidth,
+                          // height: window.parent.innerHeight
+                          width: 1600,
+                          height: 1200
+                        },
+
+                    });
+                 
+                    // // Use data received from the custom dialog
+                    useCustomDialogResult(dialogResult.result);
+                 
                   } catch (error) {
-                      console.log("Error showing modal dialog:", error);
+                    console.log("Error showing modal dialog:", error);
                   }
                 }())
               })
@@ -41,3 +52,7 @@ import { InputDialogOptions } from "@adobe/ccweb-add-on-sdk-types/iframe-ui";
   }
 
 }
+function useCustomDialogResult(result: unknown) {
+  console.log(result);
+}
+
