@@ -56,6 +56,8 @@ export class App extends LitElement {
     render() {
         // Please note that the below "<sp-theme>" component does not react to theme changes in Express.
         // You may use "this.addOnUISdk.app.ui.theme" to get the current theme and react accordingly.
+
+        //https://developer.adobe.com/express/add-ons/docs/guides/develop/use_cases/#modal-dialogs
         console.log(this)
         return html` <sp-theme theme="express" color="light" scale="medium" class="app">
             <main-modal></main-modal>

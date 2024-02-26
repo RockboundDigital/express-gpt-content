@@ -1,82 +1,43 @@
 
-import {
-    LitElement,
-    html,
-    customElement,
-    TemplateResult,
-    property,
-    query,
-    PropertyValues,
-  } from "lit-element";
-  import "@spectrum-web-components/dialog/sp-dialog.js";
-  import '@spectrum-web-components/dialog/sp-dialog-wrapper.js';
-  import "@spectrum-web-components/button/sp-button.js";
-  import "@spectrum-web-components/overlay/overlay-trigger.js";
-  import { Dialog } from "@spectrum-web-components/dialog";
+import { LitElement, html } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
+import { css } from "lit";
+import { until } from "lit/directives/until.js";
+
+
+import addOnUISdk from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
+import { InputDialogOptions } from "@adobe/ccweb-add-on-sdk-types/iframe-ui";
+
   
   @customElement("main-modal")
   export default class MainModal extends LitElement {
-    @property({ type: Boolean })
-    open = false;
-  
-    @query("sp-dialog-wrapper", true)
-    dialog!: Dialog;
 
-  
-    handleOverlayClosed() {
-      this.open = false;
-      console.log('closed');
-    }
-  
-    protected render(): TemplateResult {
+    @state()
+    private _isAddOnUISdkReady = addOnUISdk.ready;
+
+    render() {
       return html`
-        <overlay-trigger type="modal">
-            <sp-dialog-wrapper
-                slot="click-content"
-                headline="Dialog title"
-                mode="fullscreen"
-                confirm-label="Keep Both"
-                secondary-label="Replace"
-                cancel-label="Cancel"
-                footer="Content for footer"
-            >
-                Content of the dialog
-            </sp-dialog-wrapper>
-            <sp-button 
-                slot="trigger"
-            >
-                Toggle
-            </sp-button>
-        </overlay-trigger>
-        
+          ${until(
+              this._isAddOnUISdkReady.then(() => {
+                console.log("ready");
+                (async function showConfirmDialog() {
+                  try {
+                      // Confirmation Dialog Example
+                      let dialogOptions = {
+                          variant: "confirmation",
+                          title: "Enable smart Filters",
+                          description: "Smart filters are nondestructive and will preserve your original images.",
+                          buttonLabels: { primary: "Enable", cancel: "Cancel" },
+                      };    
+                      const result = await addOnUISdk.app.showModalDialog(dialogOptions as InputDialogOptions);
+                      console.log("Button type clicked " + result.buttonType); 
+                  } catch (error) {
+                      console.log("Error showing modal dialog:", error);
+                  }
+                }())
+              })
+          )}
       `;
-    }
-    updated(changed: PropertyValues) {
-      super.updated(changed);
-      if (changed.has("open")) {
-        if (this.open) {
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              this.open = true;
-            });
-          });
-        } else {
-          this.open = false;
-        }
-      }
-    }
   }
-  
 
-
-//   <sp-dialog
-//               size="medium"
-//               dismissable
-//               @close=${this.handleOverlayClosed}
-//             >
-//               <h2 slot="heading">Disclaimer</h2>
-//               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//               <sp-button @click=${(_)=> {
-//                 this.dialog.dispatchEvent(new Event('close', {bubbles: true, composed: true, cancelable: true}))
-//               }}>Close</sp-button>
-//             </sp-dialog>
+}
