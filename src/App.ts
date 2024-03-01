@@ -20,6 +20,7 @@ import "./components/settings-accordion";
 // import "./components/prompt-input";
 import "./components/invoke-button";
 import "./MainModal";
+import MainModal from "./MainModal";
 
 @customElement("add-on-app")
 export class App extends LitElement {
@@ -30,16 +31,22 @@ export class App extends LitElement {
         return style;
     }
 
-    render() {
-        // Please note that the below "<sp-theme>" component does not react to theme changes in Express.
-        // You may use "this.addOnUISdk.app.ui.theme" to get the current theme and react accordingly.
+    @query("main-modal")
+    _modal!: MainModal;
 
-        //https://developer.adobe.com/express/add-ons/docs/guides/develop/use_cases/#modal-dialogs
+    @state()
+    private _buttonLabel = "Insert Content";
+
+    private _handleClick() {
+        this._modal.showCustomDialog();
+    }
+
+    render() {
         console.log(this)
         return html` <sp-theme theme="express" color="light" scale="medium" class="app">
             <main-modal></main-modal>
             <div class="container">
-                <invoke-button class="w-full"></invoke-button>
+                <sp-button size="m" @click=${this._handleClick}>${this._buttonLabel}</sp-button>
             </div>
             <div class="container bottom-0 absolute">
                 <settings-accordion></settings-accordion>

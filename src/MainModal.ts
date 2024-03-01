@@ -22,34 +22,40 @@ export default class MainModal extends LitElement {
     return style;
   }
 
+  private useCustomDialogResult = (result: unknown) => {
+    console.log(result);
+  }
+  
+
+  showCustomDialog = async () => {
+    try {
+      const dialogResult = await addOnUISdk.app.showModalDialog({
+        variant: Variant.custom,
+        title: "Content Generation",
+        src: "main-modal.html",
+        size: {
+          //TODO CORS issues accessing parent
+          // width: window.parent.innerWidth,
+          // height: window.parent.innerHeight
+          width: 1800,
+          height: 1600
+        },
+
+      });
+
+      // // Use data received from the custom dialog
+      this.useCustomDialogResult(dialogResult.result);
+
+    } catch (error) {
+      console.log("Error showing modal dialog:", error);
+    }
+  }
+
   render() {
     return html`
           ${until(
       this._isAddOnUISdkReady.then(() => {
         console.log("ready");
-        (async function showCustomDialog() {
-          try {
-            const dialogResult = await addOnUISdk.app.showModalDialog({
-              variant: Variant.custom,
-              title: "Content Generation",
-              src: "main-modal.html",
-              size: {
-                //TODO CORS issues accessing parent
-                // width: window.parent.innerWidth,
-                // height: window.parent.innerHeight
-                width: 1800,
-                height: 1600
-              },
-
-            });
-
-            // // Use data received from the custom dialog
-            useCustomDialogResult(dialogResult.result);
-
-          } catch (error) {
-            console.log("Error showing modal dialog:", error);
-          }
-        }())
       })
     )}
       `;
@@ -57,7 +63,4 @@ export default class MainModal extends LitElement {
 
 }
 
-function useCustomDialogResult(result: unknown) {
-  console.log(result);
-}
 
