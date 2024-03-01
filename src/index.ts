@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { until } from "lit/directives/until.js";
-import "./components/App";
+import "./App";
 
 import addOnUISdk from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
 

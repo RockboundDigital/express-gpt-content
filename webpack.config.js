@@ -24,8 +24,8 @@ module.exports = {
             scriptLoading: "module"
         }),
         new HtmlWebpackPlugin({
-            template: "src/components/partials/modal.html",
-            filename: "modal.html",
+            template: "src/views/main-modal.html",
+            filename: "main-modal.html",
             scriptLoading: "module"
         }),
         new CopyWebpackPlugin({

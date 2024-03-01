@@ -17,10 +17,10 @@ import { css } from "lit";
 
 import { AddOnSDKAPI } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
 
-import "./partials/settings-accordion";
-import "./partials/prompt-input";
-import "./partials/invoke-button";
-import "./partials/main-modal";
+import "./components/settings-accordion";
+import "./components/prompt-input";
+import "./components/invoke-button";
+import "./components/main-modal";
 
 const style = css`
     .app {

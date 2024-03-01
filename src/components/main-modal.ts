@@ -24,11 +24,10 @@ import '@spectrum-web-components/field-label/sp-field-label.js';
                 console.log("ready");
                 (async function showCustomDialog() {
                   try {
-                    debugger;
                     const dialogResult = await addOnUISdk.app.showModalDialog({
                         variant: Variant.custom,
                         title: "Content Generation",
-                        src: "modal.html",
+                        src: "main-modal.html",
                         size: { 
                           //TODO CORS issues accessing parent
                           // width: window.parent.innerWidth,
