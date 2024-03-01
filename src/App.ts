@@ -10,39 +10,16 @@ import "@spectrum-web-components/theme/theme-light.js";
 import "@spectrum-web-components/button/sp-button.js";
 import "@spectrum-web-components/theme/sp-theme.js";
 
-import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { css } from "lit";
-
+import { LitElement, html, adoptStyles, CSSResultOrNative } from "lit";
+import { customElement, property, query, state } from "lit/decorators.js";
+import { style } from "./App.css";
 
 import { AddOnSDKAPI } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
 
 import "./components/settings-accordion";
-import "./components/prompt-input";
+// import "./components/prompt-input";
 import "./components/invoke-button";
-import "./components/main-modal";
-
-const style = css`
-    .app {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between; 
-    }
-
-    .container {
-        margin: 24px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .w-full {
-        width: 100%;
-    }
-
-    .mb-2 {
-        margin-bottom: 2rem;
-    }
-`;
+import "./MainModal";
 
 @customElement("add-on-app")
 export class App extends LitElement {
@@ -62,7 +39,6 @@ export class App extends LitElement {
         return html` <sp-theme theme="express" color="light" scale="medium" class="app">
             <main-modal></main-modal>
             <div class="container">
-                <prompt-input class="mb-2 w-full"></prompt-input>
                 <invoke-button class="w-full"></invoke-button>
             </div>
             <div class="container bottom-0 absolute">
