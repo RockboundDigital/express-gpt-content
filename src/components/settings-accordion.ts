@@ -1,5 +1,7 @@
 import '@spectrum-web-components/accordion/sp-accordion.js';
 import '@spectrum-web-components/accordion/sp-accordion-item.js';
+import '@spectrum-web-components/textfield/sp-textfield.js';
+import '@spectrum-web-components/field-label/sp-field-label.js';
 
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
@@ -30,7 +32,13 @@ export class Settings extends LitElement {
         // You may use "this.addOnUISdk.app.ui.theme" to get the current theme and react accordingly.
         return html`<sp-accordion>
                         <sp-accordion-item label="Settings">
-                            <div>Settings TODO</div>
+                            <sp-field-label size="m" for="api-key">OpenAI API Key</sp-field-label>
+                            <sp-textfield
+                                id="api-key"
+                                size="m"
+                                type="password"
+                                placeholder="Enter your API Key"
+                            ></sp-textfield>
                         </sp-accordion-item>
                     </sp-accordion>`;
     }
