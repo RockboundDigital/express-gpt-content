@@ -7,15 +7,22 @@ import '@spectrum-web-components/field-label/sp-field-label.js';
 
 import { Textfield } from '@spectrum-web-components/textfield';
 
-@customElement("prompt-input")
+@customElement("content-response")
 export class PromptInput extends Textfield {
     //https://lit.dev/docs/components/styles/
     static get styles() {
         return [
             Textfield.styles,
             css `
-                textarea.input { height: 8rem; }
+                #textfield > textarea.input { 
+                    height: 20rem;
+                    border: none;
+                    resize: none;
+
+                }
             `
+                    // background-color: var(--spectrum-disabled-content-color);
+
         ]
     } 
 
