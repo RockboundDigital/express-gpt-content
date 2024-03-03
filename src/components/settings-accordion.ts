@@ -17,8 +17,8 @@ export class Settings extends LitElement {
 
     store: ClientStorage;
 
-    // @state()
-    // private _buttonLabel = "Click me";
+    @state()
+    private _apiKey;
 
     // static get styles() {
     //     return style;
@@ -35,10 +35,16 @@ export class Settings extends LitElement {
         console.log('Saved settings.');
     }
 
+    async getSetting(setting: string) {
+        return await this.store.getItem(setting);
+    }
+
     render() {
 
         addOnUISdk.ready.then(async () => {
             this.store = addOnUISdk.instance.clientStorage;
+
+            this._apiKey = await this.getSetting('apiKey');
         })
 
         // Please note that the below "<sp-theme>" component does not react to theme changes in Express.
@@ -52,6 +58,8 @@ export class Settings extends LitElement {
                                 type="password"
                                 placeholder="Enter your API Key"
                                 @change=${this._saveSettings}
+                                value=${this._apiKey}
+                                valid=${this._apiKey ? true : false}
                             ></sp-textfield>
                         </sp-accordion-item>
                     </sp-accordion>`;
