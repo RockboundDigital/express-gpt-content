@@ -1,17 +1,20 @@
 
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 
 import "@spectrum-web-components/button/sp-button.js";
+import '@spectrum-web-components/button-group/sp-button-group.js';
 import '@spectrum-web-components/field-label/sp-field-label.js';
 import './prompt-input'
 import './content-response'
 import { Settings } from "./settings-accordion";
 
+
 import { style } from "../App.css";
 
 import OpenAI from 'openai';
-import addOnUISdk, { ClientStorage } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
+import addOnUISdk, { ClientStorage, RuntimeType } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
+import { editor } from "express-document-sdk";
 
 @customElement("main-modal-body")
 export default class MainModalBody extends LitElement {
@@ -20,8 +23,8 @@ export default class MainModalBody extends LitElement {
         return [
             style,
             css `
-                .prompt-button{
-                    width: 10%;
+                .modal-button {
+                    --pending-delay: 0ms;
                 }
             `
         
@@ -29,10 +32,14 @@ export default class MainModalBody extends LitElement {
     }
 
     store: ClientStorage;
+    sandboxProxy;
     openai: OpenAI;
 
     @state()
-    private _buttonLabel = "Send Prompt";
+    private _isInvoking = false;
+
+    @state()
+    private _isInserting = false;
 
     @state()
     private _contentResponse = "";
@@ -47,16 +54,37 @@ export default class MainModalBody extends LitElement {
         }
     }
 
-    private async _handleClick() {
-        this._buttonLabel = "Loading...";
+    private async _sendPrompt() {
+        this._isInvoking = true;
 
-        const chatCompletion = await this.openai.chat.completions.create({
-            messages: [{ role: 'user', content: this._promptValue }],
-            model: 'gpt-3.5-turbo',
-        });
+        try {
+            const chatCompletion = await this.openai.chat.completions.create({
+                messages: [{ role: 'user', content: this._promptValue }],
+                model: 'gpt-3.5-turbo',
+            });
+    
+            this._contentResponse = chatCompletion.choices[0].message.content;
+        } 
+        finally {
+            this._isInvoking = false;
+        }        
+    }
 
-        this._contentResponse = chatCompletion.choices[0].message.content;
-        this._buttonLabel = "Send Prompt";
+    private async _addToDoc() {
+        this._isInserting = true;
+
+        try {
+            //TODO We can't do this here, we'll have to return the value to app on dialog close to insert
+
+            addOnUISdk.instance.runtime.dialog.close({
+                action: "insert",
+                data: this._contentResponse
+            });
+        } 
+        finally {
+            this._isInserting = false; 
+
+        } 
     }
 
     render() {
@@ -98,7 +126,10 @@ export default class MainModalBody extends LitElement {
                                 placeholder="Enter a prompt to generate content"
                                 @input=${this.setPromptValue}
                             ></prompt-input>
-                            <sp-button size="m" class="prompt-button" @click=${this._handleClick}>${this._buttonLabel}</sp-button>
+                            <sp-button-group>
+                                <sp-button size="m" class="modal-button" pending="${this._isInvoking || nothing}" @click=${this._sendPrompt}>${this._isInvoking ? 'Loading...' : 'Send Prompt' }</sp-button>
+                                <sp-button size="m" class="modal-button" variant="secondary" pending="${this._isInserting|| nothing}" @click=${this._addToDoc}>${this._isInserting ? 'Loading...' : 'Add to Document' }</sp-button>
+                            </sp-button-group>
                         </div>
                     </sp-theme>`;
     }

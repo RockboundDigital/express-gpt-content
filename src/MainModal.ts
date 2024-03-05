@@ -12,6 +12,11 @@ import { style } from "./App.css";
 
 import './components/main-modal-body'
 
+addOnUISdk.ready.then(async () => {
+  //@ts-ignore
+  await addOnUISdk.instance.runtime.apiProxy("documentSandbox");
+})
+
 @customElement("main-modal")
 export default class MainModal extends LitElement {
 
@@ -22,8 +27,16 @@ export default class MainModal extends LitElement {
     return style;
   }
 
-  private useCustomDialogResult = (result: unknown) => {
+  private useCustomDialogResult = async (result: {action: string, data: string}) => {
+    // Use data received from the custom dialog
     console.log(result);
+    if(result.action === "insert") {
+      //@ts-ignore
+      const sandbox = await addOnUISdk.instance.runtime.apiProxy("documentSandbox");
+      //@ts-ignore
+      const res = await sandbox.addText(result.data);
+
+    }
   }
   
 
@@ -44,7 +57,7 @@ export default class MainModal extends LitElement {
       });
 
       // // Use data received from the custom dialog
-      this.useCustomDialogResult(dialogResult.result);
+      this.useCustomDialogResult(dialogResult.result as {action: string, data: string});
 
     } catch (error) {
       console.log("Error showing modal dialog:", error);

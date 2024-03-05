@@ -9,13 +9,15 @@
                 "name": "Express",
                 "apiVersion": 1
             }
-        ]
+        ],
+        "experimentalApis": true
     },
     "entryPoints": [
         {
             "type": "panel",
             "id": "panel1",
             "main": "index.html",
+            "documentSandbox": "code.js",
             "permissions" : {
                 "sandbox": ["allow-popups", "allow-downloads"]
             }            

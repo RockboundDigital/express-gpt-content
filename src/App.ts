@@ -14,7 +14,7 @@ import { LitElement, html, adoptStyles, CSSResultOrNative } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { style } from "./App.css";
 
-import { AddOnSDKAPI } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
+import addOnUISdk from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
 
 import "./components/settings-accordion";
 // import "./components/prompt-input";
@@ -24,9 +24,6 @@ import MainModal from "./MainModal";
 
 @customElement("add-on-app")
 export class App extends LitElement {
-    @property({ type: Object })
-    addOnUISdk!: AddOnSDKAPI;
-
     static get styles() {
         return style;
     }
@@ -37,12 +34,15 @@ export class App extends LitElement {
     @state()
     private _buttonLabel = "Insert Content";
 
-    private _handleClick() {
+    private async _handleClick() {
         this._modal.showCustomDialog();
     }
 
+    
+
     render() {
         console.log(this)
+
         return html` <sp-theme theme="express" color="light" scale="medium" class="app">
             <main-modal></main-modal>
             <div class="container">
