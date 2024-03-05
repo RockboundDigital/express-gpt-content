@@ -20,15 +20,24 @@ export const style = css`
     }
 
     .container {
-        margin: 24px;
+        margin-left: 1rem;
+        margin-right: 1rem;
         display: flex;
         flex-direction: column;
+    }
+
+    .help-text {
+        color: var(--spectrum-global-color-gray-600);
     }
 
     .w-full {
         width: 100%;
     }
     
+    .mb-1 {
+        margin-bottom: 1rem;
+    }
+
     .mb-2 {
         margin-bottom: 2rem;
     }

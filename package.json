@@ -18,7 +18,7 @@
         "@spectrum-web-components/accordion": "^0.41.1",
         "@spectrum-web-components/button": "^0.41.1",
         "@spectrum-web-components/button-group": "^0.41.1",
-        "@spectrum-web-components/dialog": "^0.41.1",
+        "@spectrum-web-components/divider": "^0.41.1",
         "@spectrum-web-components/field-label": "^0.41.1",
         "@spectrum-web-components/overlay": "^0.41.1",
         "@spectrum-web-components/progress-circle": "^0.41.1",

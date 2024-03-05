@@ -14,7 +14,6 @@ import { style } from "../App.css";
 
 import OpenAI from 'openai';
 import addOnUISdk, { ClientStorage, RuntimeType } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
-import { editor } from "express-document-sdk";
 
 @customElement("main-modal-body")
 export default class MainModalBody extends LitElement {
@@ -93,7 +92,6 @@ export default class MainModalBody extends LitElement {
         addOnUISdk.ready.then(async () => {
             this.store = addOnUISdk.instance.clientStorage;
 
-            //TODO use Settings
             this.store.getItem('apiKey').then((result) => {
                 if (result) {
                     this.openai = new OpenAI({
@@ -128,7 +126,7 @@ export default class MainModalBody extends LitElement {
                             ></prompt-input>
                             <sp-button-group>
                                 <sp-button size="m" class="modal-button" pending="${this._isInvoking || nothing}" @click=${this._sendPrompt}>${this._isInvoking ? 'Loading...' : 'Send Prompt' }</sp-button>
-                                <sp-button size="m" class="modal-button" variant="secondary" pending="${this._isInserting|| nothing}" @click=${this._addToDoc}>${this._isInserting ? 'Loading...' : 'Add to Document' }</sp-button>
+                                <sp-button size="m" class="modal-button" variant="secondary" pending="${this._isInserting || nothing}" disabled="${this._contentResponse.length < 1 || nothing}" @click=${this._addToDoc}>${this._isInserting ? 'Loading...' : 'Add to Document' }</sp-button>
                             </sp-button-group>
                         </div>
                     </sp-theme>`;
