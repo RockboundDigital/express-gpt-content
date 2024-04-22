@@ -17,19 +17,23 @@
     "dependencies": {
         "@spectrum-web-components/accordion": "^0.41.1",
         "@spectrum-web-components/button": "^0.41.1",
-        "@spectrum-web-components/dialog": "^0.41.1",
+        "@spectrum-web-components/button-group": "^0.41.1",
+        "@spectrum-web-components/divider": "^0.41.1",
         "@spectrum-web-components/field-label": "^0.41.1",
         "@spectrum-web-components/overlay": "^0.41.1",
         "@spectrum-web-components/progress-circle": "^0.41.1",
         "@spectrum-web-components/textfield": "^0.41.1",
         "@spectrum-web-components/theme": "0.39.4",
-        "lit": "2.8.0"
+        "lit": "2.8.0",
+        "openai": "^4.28.0"
     },
     "devDependencies": {
         "@adobe/ccweb-add-on-scripts": "^1.3.0",
         "@adobe/ccweb-add-on-sdk-types": "^1.3.0",
+        "babel-preset-es2015": "^6.24.1",
         "copy-webpack-plugin": "11.0.0",
         "css-loader": "6.8.1",
+        "html-loader": "^5.0.0",
         "html-webpack-plugin": "5.5.3",
         "style-loader": "3.3.3",
         "ts-loader": "9.5.1",
